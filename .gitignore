@@ -77,6 +77,3 @@ crashlytics-build.properties
 
 # Executables
 *.exe
-
-# Ignore specific large files
-Assets/Prefabs/BreakableAsteroids/Asteroids/zasteroids.dae
