@@ -7,9 +7,10 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference primaryAbilityAction;
     [SerializeField] private InputActionReference secondaryAbilityAction;
+    [SerializeField] private InputActionReference pauseAction;
     
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float moveSpeed = 4f;
 
     [Header("Ability Settings")]
     [SerializeField] private GameObject abilityBulletPrefab;
@@ -17,17 +18,25 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Transform LeftWingHardPoint;
     [SerializeField] private Transform RightWingHardPoint;
 
+    private AudioManager audioManager;
+
     private float primaryDelay = 0.1f;
     private float secondaryDelay = 1.0f;
     private bool primaryAbilityDown_ = false;
     private bool secondaryAbilityDown_ = false;
     private float primaryDelayTimer = 0.0f;
     private float secondaryDelayTimer = 0.0f;
+    private bool isPaused = false;
 
     private float maxX = 6.5f;
     private float minX = -.37f;
     private float maxZ = -1.5f;
     private float minZ = -7f;
+
+    void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     
     void Start()
     {
@@ -54,6 +63,13 @@ public class PlayerControls : MonoBehaviour
             secondaryAbilityDown_ = false;
             secondaryDelayTimer = 0.0f;
         }
+        
+        // Enable pause action
+        if (pauseAction != null)
+        {
+            pauseAction.action.Enable();
+            OnEnablePause();
+        }
     }
     
     void OnDestroy()
@@ -75,6 +91,12 @@ public class PlayerControls : MonoBehaviour
             OnDisableSecondaryAbility();
             secondaryAbilityAction.action.Disable();
         }
+        
+        if (pauseAction != null)
+        {
+            OnDisablePause();
+            pauseAction.action.Disable();
+        }
     }
     
     void Update()
@@ -82,10 +104,10 @@ public class PlayerControls : MonoBehaviour
         OnMovement();
 
         // Handle primary ability
-        HandleAbility(primaryAbilityDown_, ref primaryDelayTimer, primaryDelay, abilityBulletPrefab, "bullet");
+        HandleAbility(primaryAbilityDown_, ref primaryDelayTimer, primaryDelay, abilityBulletPrefab, "bullet", audioManager.ability1);
 
         // Handle secondary ability
-        HandleAbility(secondaryAbilityDown_, ref secondaryDelayTimer, secondaryDelay, abilityMissilePrefab, "missile");
+        HandleAbility(secondaryAbilityDown_, ref secondaryDelayTimer, secondaryDelay, abilityMissilePrefab, "missile", audioManager.ability2);
     }
     
     private void OnMovement()
@@ -124,7 +146,7 @@ public class PlayerControls : MonoBehaviour
         transform.position = pos;
     }
 
-    private void HandleAbility(bool abilityDown, ref float delayTimer, float delay, GameObject prefab, string type)
+    private void HandleAbility(bool abilityDown, ref float delayTimer, float delay, GameObject prefab, string type, AudioClip audioClip)
     {
         if (abilityDown) {
             delayTimer += Time.deltaTime;
@@ -132,9 +154,9 @@ public class PlayerControls : MonoBehaviour
                 if (prefab != null) {
                     // Different rotations for bullets vs missiles
                     Quaternion rotation = (type == "bullet") ? Quaternion.Euler(100f, 0f, 0f) : Quaternion.Euler(0f, 0f, 0f);
-                    
                     Instantiate(prefab, LeftWingHardPoint.position, rotation);
                     Instantiate(prefab, RightWingHardPoint.position, rotation);
+                    audioManager.PlaySFX(audioClip);
                 } else {
                     Debug.LogError($"Ability {type} prefab is null!");
                 }
@@ -186,6 +208,19 @@ public class PlayerControls : MonoBehaviour
         secondaryAbilityAction.action.canceled -= OnSecondaryAbilityUp;
     }
     
+    private void OnPause(InputAction.CallbackContext context) {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+        Debug.Log(isPaused ? "Game Paused" : "Game Resumed");
+    }
+
+    private void OnEnablePause() {
+        pauseAction.action.performed += OnPause;
+    }
+
+    private void OnDisablePause() {
+        pauseAction.action.performed -= OnPause;
+    }
 
 
 }

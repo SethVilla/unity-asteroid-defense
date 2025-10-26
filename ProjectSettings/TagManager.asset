@@ -9,6 +9,7 @@ TagManager:
   - Ability Two
   - Renegade
   - Space Pod
+  - Audio
   layers:
   - Default
   - TransparentFX

@@ -7,6 +7,14 @@ public class AsteroidCollision : MonoBehaviour
     
     // Damage that the asteroid deals
     public float damage;
+
+    private AudioManager audioManager;
+
+    void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
         // Initialize hp to a random value between 5 and 10
@@ -21,6 +29,7 @@ public class AsteroidCollision : MonoBehaviour
         Debug.Log("Asteroid hit for " + damageAmount + " damage. Current HP: " + hp);
         if (hp <= 0)
         {
+            audioManager.PlaySFX(audioManager.explosions[Random.Range(0, audioManager.explosions.Length)]);
             DestroyAsteroid();
         }
     }

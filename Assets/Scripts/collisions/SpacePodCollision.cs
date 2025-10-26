@@ -7,6 +7,14 @@ public class SpacePodCollision : MonoBehaviour
     
     // Damage that the space pod deals
     public float damage;
+
+    private AudioManager audioManager;
+
+    void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
         // Initialize hp to a random value between 5 and 10
@@ -21,6 +29,7 @@ public class SpacePodCollision : MonoBehaviour
         Debug.Log("SpacePod hit for " + damageAmount + " damage. Current HP: " + hp);
         if (hp <= 0)
         {
+            audioManager.PlaySFX(audioManager.explosions[Random.Range(0, audioManager.explosions.Length)]);
             Destroy(gameObject);
         }
     }
