@@ -695,6 +695,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 13e3046e-b86b-44f2-86dd-6ce0545c81b1
     m_ActionName: 'Gameplay/Secondary[/Keyboard/ctrl]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42c779fb-cbba-4b1b-80a9-7a51ed5f01ed
+    m_ActionName: 'Gameplay/Pause[/Keyboard/p]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Ship Controls
   m_DefaultActionMap: Gameplay
@@ -715,7 +719,8 @@ MonoBehaviour:
   moveAction: {fileID: 3316897474990346591, guid: b23d5c9d9d6c845b9aefced1eb8eabae, type: 3}
   primaryAbilityAction: {fileID: -4466874068598416870, guid: b23d5c9d9d6c845b9aefced1eb8eabae, type: 3}
   secondaryAbilityAction: {fileID: -5899441615661006066, guid: b23d5c9d9d6c845b9aefced1eb8eabae, type: 3}
-  moveSpeed: 2
+  pauseAction: {fileID: 2832773707668566954, guid: b23d5c9d9d6c845b9aefced1eb8eabae, type: 3}
+  moveSpeed: 3.5
   abilityBulletPrefab: {fileID: 8585542772986347399, guid: f1c24dc36b65de24ab16093f518a7397, type: 3}
   abilityMissilePrefab: {fileID: 3956545706807500900, guid: 9085da0555bc234438b1ba4a3a7065d4, type: 3}
   LeftWingHardPoint: {fileID: 1671575999}

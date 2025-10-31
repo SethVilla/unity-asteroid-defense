@@ -30,6 +30,7 @@ public class SpacePodCollision : MonoBehaviour
         if (hp <= 0)
         {
             audioManager.PlaySFX(audioManager.explosions[Random.Range(0, audioManager.explosions.Length)]);
+            GameUI.Instance.IncreaseScore(10 * (int)damage);
             Destroy(gameObject);
         }
     }

@@ -36,6 +36,11 @@ public class AsteroidCollision : MonoBehaviour
     
     private void DestroyAsteroid()
     {
+        if (GameUI.Instance != null)
+        {
+            GameUI.Instance.IncreaseScore(10 * (int)damage);
+        }
+        
         // Check if this asteroid has the Fracture component
         Fracture fractureScript = GetComponent<Fracture>();
         
