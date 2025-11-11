@@ -18,6 +18,9 @@ public class SceneController : MonoBehaviour
     // Current tile index, used to create new tiles
     private int currentTileIndex = 0;
     
+    // Track how many tiles have been created
+    private int tilesCreated = 0;
+    
     void Start()
     {
         if (mainCamera == null)
@@ -50,6 +53,7 @@ public class SceneController : MonoBehaviour
         activeTiles.Add(CreateTile(new Vector3(0, 5, 0f), 1));
         activeTiles.Add(CreateTile(new Vector3(0, 5, 10f), 2));
         activeTiles.Add(CreateTile(new Vector3(0, 5, 20f), 3));
+        currentTileIndex = 3; // Update index to match the last tile created
     }
     
     private GameObject CreateTile(Vector3 position, int tileNumber)
@@ -58,6 +62,22 @@ public class SceneController : MonoBehaviour
         tile.name = $"GameTile_{tileNumber}";
         tile.transform.localScale = new Vector3(7.5f, 10f, 10f);
         SetTileVisibility(tile);
+        
+        // Increment tiles created counter
+         currentTileIndex++;
+        
+        // Only spawn asteroids and space pods after the first two tiles
+        if (currentTileIndex > 1)
+        {
+            GameTileAsteroids asteroidScript = tile.GetComponent<GameTileAsteroids>();
+            if (asteroidScript != null)
+                asteroidScript.SpawnAsteroids();
+                
+            GameTileSpacePods spacePodScript = tile.GetComponent<GameTileSpacePods>();
+            if (spacePodScript != null)
+                spacePodScript.SpawnSpacePods();
+        }
+        
         return tile;
     }
     

@@ -25,11 +25,10 @@ public class GameTileAsteroids : MonoBehaviour
             Collider col = GetComponent<Collider>();
             areaSize = col != null ? col.bounds.size : Vector3.one;
         }
-
-        SpawnAsteroids();
     }
 
-    void SpawnAsteroids()
+    // Public function to spawn asteroids, called by SceneController
+    public void SpawnAsteroids()
     {
         for (int i = 0; i < numberOfAsteroids; i++)
         {

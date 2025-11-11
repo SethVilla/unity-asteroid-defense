@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameTileSpacePods : MonoBehaviour
 {
@@ -6,8 +7,21 @@ public class GameTileSpacePods : MonoBehaviour
     [SerializeField] private GameObject[] spacePodPrefabs; 
     [SerializeField] private int numberOfSpacePods = 3;
     [SerializeField] private Camera mainCamera;
+    
+    [Header("Movement Settings")]
+    [SerializeField] private float rotationSpeed = 50f;
+    [SerializeField] private float diagonalSpeed = 0.5f;
+    [SerializeField] private float diagonalRange = 0.3f;
 
     private Vector3 areaSize; // size of the tile in world space
+    private List<SpacePodData> spacePods = new List<SpacePodData>();
+    
+    private class SpacePodData
+    {
+        public GameObject gameObject;
+        public Vector3 startPosition;
+        public float timeOffset;
+    }
 
     void Start()
     {
@@ -24,12 +38,42 @@ public class GameTileSpacePods : MonoBehaviour
             Collider col = GetComponent<Collider>();
             areaSize = col != null ? col.bounds.size : Vector3.one;
         }
-
-        SpawnSpacePods();
     }
 
-    void SpawnSpacePods()
+    void Update()
     {
+        // Update each space pod's rotation and left-right oscillation
+        foreach (SpacePodData pod in spacePods)
+        {
+            if (pod.gameObject != null)
+            {
+                // Rotate the space pod
+                pod.gameObject.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+                
+                // Apply left-to-right oscillation (using localPosition since it's a child)
+                float time = Time.time * diagonalSpeed + pod.timeOffset;
+                Vector3 offset = new Vector3(
+                    Mathf.Sin(time) * diagonalRange,
+                    0f,
+                    0f
+                );
+                
+                pod.gameObject.transform.localPosition = pod.startPosition + offset;
+            }
+        }
+    }
+    
+    // Public function to spawn space pods, called by SceneController
+    public void SpawnSpacePods()
+    {
+        Debug.Log($"SpawnSpacePods called on {gameObject.name}. Number to spawn: {numberOfSpacePods}");
+        
+        if (spacePodPrefabs == null || spacePodPrefabs.Length == 0)
+        {
+            Debug.LogError("No space pod prefabs assigned!");
+            return;
+        }
+        
         for (int i = 0; i < numberOfSpacePods; i++)
         {
             GameObject prefab = spacePodPrefabs[Random.Range(0, spacePodPrefabs.Length)];
@@ -46,6 +90,16 @@ public class GameTileSpacePods : MonoBehaviour
 
             // Apply uniform scale to maintain sphere shape
             spacePod.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
+            
+            // Store the space pod data for animation (using localPosition since it's a child)
+            spacePods.Add(new SpacePodData
+            {
+                gameObject = spacePod,
+                startPosition = spacePod.transform.localPosition,
+                timeOffset = Random.Range(0f, Mathf.PI * 2f) // Random starting phase
+            });
+            
+            Debug.Log($"Spawned space pod {i+1}/{numberOfSpacePods} at position {spacePod.transform.position}");
         }
     }
 
