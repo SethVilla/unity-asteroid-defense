@@ -60,6 +60,10 @@ public class GameUI : MonoBehaviour {
   public int getLives() {
     return currentLives_;
   }
+  
+  public int getScore() {
+    return currentScore_;
+  }
 
   public void SetLives(int lives) {
     // for future scenerio with live up power ups

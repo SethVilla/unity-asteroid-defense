@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour
@@ -20,14 +21,25 @@ public class SceneController : MonoBehaviour
     
     // Track how many tiles have been created
     private int tilesCreated = 0;
-    
+
     void Start()
     {
         if (mainCamera == null)
             mainCamera = Camera.main;
             
+        // Restore saved lives and score if they were saved
+        if (GameStateManager.HasSavedState() && GameUI.Instance != null)
+        {
+            GameUI.Instance.SetLives(GameStateManager.GetSavedLives());
+            GameUI.Instance.SetScore(GameStateManager.GetSavedScore());
+            
+            // Clear saved values after restoring
+            GameStateManager.ClearSavedState();
+        }
+        
         CreateInitialTiles();
     }
+    
 
     void Update()
     {
@@ -66,7 +78,7 @@ public class SceneController : MonoBehaviour
         // Increment tiles created counter
          currentTileIndex++;
         
-        // Only spawn asteroids and space pods after the first two tiles
+        // Only spawn asteroids, space pods, and satellites after the first tile
         if (currentTileIndex > 1)
         {
             GameTileAsteroids asteroidScript = tile.GetComponent<GameTileAsteroids>();
@@ -76,6 +88,10 @@ public class SceneController : MonoBehaviour
             GameTileSpacePods spacePodScript = tile.GetComponent<GameTileSpacePods>();
             if (spacePodScript != null)
                 spacePodScript.SpawnSpacePods();
+                
+            GameTileSatellites satelliteScript = tile.GetComponent<GameTileSatellites>();
+            if (satelliteScript != null)
+                satelliteScript.SpawnSatellites();
         }
         
         return tile;
@@ -141,4 +157,21 @@ public class SceneController : MonoBehaviour
             // This will make tiles visible so you can see the positioning
         }
     }
+    
+    // Public function to reset the scene back to the start
+    public void ResetScene()
+    {
+        // Save current lives and score before reloading
+        if (GameUI.Instance != null)
+        {
+            GameStateManager.SaveState(GameUI.Instance.getLives(), GameUI.Instance.getScore());
+        }
+        
+        // Reset time scale in case it was paused
+        Time.timeScale = 1.0f;
+        
+        // Reload the current active scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
 }

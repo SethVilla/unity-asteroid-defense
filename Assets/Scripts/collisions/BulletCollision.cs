@@ -33,5 +33,15 @@ public class BulletCollision : MonoBehaviour
                 Destroy(gameObject); // Destroy the bullet after hitting
             }
         }
+        else if (collision.gameObject.CompareTag("Satellite"))
+        {
+            SatelliteCollision satelliteScript = collision.gameObject.GetComponent<SatelliteCollision>();
+            if (satelliteScript != null)
+            {
+                Debug.Log("Bullet hit satellite for " + damage + " damage.");
+                satelliteScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the bullet after hitting
+            }
+        }
     }
 }

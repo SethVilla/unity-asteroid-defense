@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6734410103084889258}
   - component: {fileID: -7630836794247006053}
   - component: {fileID: 4518343219796755520}
+  - component: {fileID: 3288459877570279942}
   m_Layer: 0
   m_Name: GameTile
   m_TagString: Untagged
@@ -149,3 +150,24 @@ MonoBehaviour:
   - {fileID: 1388219639535719918, guid: b1c41f6a1d4734bdbb046da30ca1a6a4, type: 3}
   numberOfSpacePods: 2
   mainCamera: {fileID: 0}
+  rotationSpeed: 50
+  diagonalSpeed: 0.5
+  diagonalRange: 0.3
+--- !u!114 &3288459877570279942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953737687677692195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0184dfcfc3744b4b1bd76bc56e3a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameTileSatellites
+  satellitePrefabs:
+  - {fileID: 1412742708598286, guid: 347040970b496ba4086308c48e34652b, type: 3}
+  numberOfSatellites: 2
+  mainCamera: {fileID: 0}
+  moveSpeed: 0.25
+  rotationSpeed: 30

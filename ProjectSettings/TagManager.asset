@@ -10,6 +10,7 @@ TagManager:
   - Renegade
   - Space Pod
   - Audio
+  - Satellite
   layers:
   - Default
   - TransparentFX

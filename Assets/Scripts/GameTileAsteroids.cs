@@ -30,6 +30,14 @@ public class GameTileAsteroids : MonoBehaviour
     // Public function to spawn asteroids, called by SceneController
     public void SpawnAsteroids()
     {
+        Debug.Log($"SpawnAsteroids called on {gameObject.name}. Number to spawn: {numberOfAsteroids}");
+        
+        if (rockPrefabs == null || rockPrefabs.Length == 0)
+        {
+            Debug.LogError("No rock prefabs assigned!");
+            return;
+        }
+        
         for (int i = 0; i < numberOfAsteroids; i++)
         {
             GameObject prefab = rockPrefabs[Random.Range(0, rockPrefabs.Length)];
@@ -42,11 +50,13 @@ public class GameTileAsteroids : MonoBehaviour
                 Random.Range(-5f, 5f) // Within tile depth (10/2 = 5)
             );
 
-            // Instantiate prefab using its original scale
+            // Instantiate prefab as child of this tile
             GameObject asteroid = Instantiate(prefab, transform.position + localPos, Random.rotation, transform);
 
             // Scale asteroids based on distance
             asteroid.transform.localScale = prefab.transform.localScale * scale;
+            
+            Debug.Log($"Spawned asteroid {i+1}/{numberOfAsteroids} at position {asteroid.transform.position}");
         }
     }
 

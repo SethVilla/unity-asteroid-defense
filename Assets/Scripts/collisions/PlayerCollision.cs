@@ -40,6 +40,15 @@ public class PlayerCollision : MonoBehaviour
                 spacePodScript.TakeDamage(10f);
                 TakeDamage(damage);
             }
+        } else if (collision.gameObject.CompareTag("Satellite"))
+        {
+            SatelliteCollision satelliteScript = collision.gameObject.GetComponent<SatelliteCollision>();
+            if (satelliteScript != null)
+            {
+                float damage = satelliteScript.damage;
+                satelliteScript.TakeDamage(10f);
+                TakeDamage(damage);
+            }
         }
 
     }
@@ -51,6 +60,13 @@ public class PlayerCollision : MonoBehaviour
         
             GameUI.Instance.LoseLife();
             currentHP_ = maxHP_;
+            
+            // Reset the scene after losing a life
+            SceneController sceneController = FindObjectOfType<SceneController>();
+            if (sceneController != null)
+            {
+                sceneController.ResetScene();
+            }
         }   else if (currentHP_ <= 0) {
             currentHP_ = 0;
             GameOver();

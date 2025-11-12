@@ -28,6 +28,17 @@ public class MissileCollision : MonoBehaviour
                 Destroy(gameObject); // Destroy the missile after hitting
             }
         }
+        // Check if we hit a satellite
+        else if (collision.gameObject.CompareTag("Satellite"))
+        {
+            SatelliteCollision satelliteScript = collision.gameObject.GetComponent<SatelliteCollision>();
+            if (satelliteScript != null)
+            {
+                Debug.Log("Missile hit satellite for " + damage + " damage.");
+                satelliteScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the missile after hitting
+            }
+        }
     }
 }
 
