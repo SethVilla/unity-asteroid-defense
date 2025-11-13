@@ -21,13 +21,24 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Asteroid"))
         {
-            // Get damage from asteroid
+            // Try regular asteroid first
             AsteroidCollision asteroidScript = collision.gameObject.GetComponent<AsteroidCollision>();
             if (asteroidScript != null)
             {
                 float damage = asteroidScript.damage;
                 asteroidScript.TakeDamage(10f);
                 TakeDamage(damage);
+                return;
+            }
+            
+            // Try Level 2 asteroid
+            AsteroidCollisionLevel2 asteroidLevel2Script = collision.gameObject.GetComponent<AsteroidCollisionLevel2>();
+            if (asteroidLevel2Script != null)
+            {
+                float damage = asteroidLevel2Script.damage;
+                asteroidLevel2Script.TakeDamage(10f);
+                TakeDamage(damage);
+                return;
             }
         }
         else if (collision.gameObject.CompareTag("Space Pod"))

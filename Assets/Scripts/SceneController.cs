@@ -81,9 +81,15 @@ public class SceneController : MonoBehaviour
         // Only spawn asteroids, space pods, and satellites after the first tile
         if (currentTileIndex > 1)
         {
+            // Spawn regular asteroids
             GameTileAsteroids asteroidScript = tile.GetComponent<GameTileAsteroids>();
             if (asteroidScript != null)
                 asteroidScript.SpawnAsteroids();
+            
+            // Spawn Level 2 asteroids if present
+            GameTileAsteroidsLevel2 asteroidLevel2Script = tile.GetComponent<GameTileAsteroidsLevel2>();
+            if (asteroidLevel2Script != null)
+                asteroidLevel2Script.SpawnAsteroids();
                 
             GameTileSpacePods spacePodScript = tile.GetComponent<GameTileSpacePods>();
             if (spacePodScript != null)
