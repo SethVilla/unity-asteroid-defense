@@ -6,10 +6,9 @@ public class StartScreenGameUI : MonoBehaviour
 {
     public static StartScreenGameUI Instance { get; private set; }
     
-    [Header("Scene Settings")]
-    [SerializeField] private string gameSceneName = "Assignment7Scene";
-    
     private Button startButton_;
+    private Label highScoreLabel;
+    private const string GAME_SCENE_NAME = "Level One";
 
     void Awake()
     {
@@ -28,19 +27,15 @@ public class StartScreenGameUI : MonoBehaviour
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         
-        // Find the start button
         startButton_ = root.Q<Button>("StartButton");
+        highScoreLabel = root.Q<Label>("Score");
         
         if (startButton_ != null)
         {
-            // Register click event
             startButton_.clicked += OnStartButtonClicked;
-            Debug.Log("Start button found and registered");
         }
-        else
-        {
-            Debug.LogError("Start button not found! Make sure there's a Button element with name 'StartButton' in the UI Document");
-        }
+        
+        UpdateHighScore();
     }
 
     void OnDisable()
@@ -54,24 +49,37 @@ public class StartScreenGameUI : MonoBehaviour
 
     private void OnStartButtonClicked()
     {
-        Debug.Log($"Start button clicked! Loading scene: {gameSceneName}");
-        
-        // Reset game state for a new game
         GameStateManager.ResetState();
         
-        // Reset time scale in case it was paused
-        Time.timeScale = 1.0f;
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.ResetToLevel1();
+        }
         
-        // Load the game scene
-        SceneManager.LoadScene(gameSceneName);
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(GAME_SCENE_NAME);
     }
     
-    /// <summary>
-    /// Public method to load the game scene (can be called from other scripts)
-    /// </summary>
+    private void UpdateHighScore()
+    {
+        int highScore = GameStateManager.GetHighestScore();
+        Debug.Log($"Loading high score: {highScore}");
+        
+        if (highScoreLabel != null)
+        {
+            highScoreLabel.text = highScore.ToString("D5");
+            Debug.Log($"High score label updated to: {highScoreLabel.text}");
+        }
+        else
+        {
+            Debug.LogWarning("HighScore label not found in UI! Make sure there's a Label with name 'HighScore' in the UXML");
+        }
+    }
+    
     public void LoadGameScene()
     {
         OnStartButtonClicked();
     }
 }
+
 

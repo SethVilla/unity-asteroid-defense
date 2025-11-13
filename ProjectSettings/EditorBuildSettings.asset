@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Start Screen.unity
     guid: 620aed8ca5106400988add24da9b494c
   - enabled: 1
-    path: Assets/Scenes/Assignment7Scene.unity
-    guid: 5542ccef3870c477595be68c4eee69bc
+    path: Assets/Scenes/Level One.unity
+    guid: 83329bd5d93d84d848b0bcaff12689c8
+  - enabled: 1
+    path: Assets/Scenes/Level Two.unity
+    guid: 4c923fa1bf47b426fa545e4c05eddcbe
+  - enabled: 1
+    path: Assets/Scenes/Boss Battle.unity
+    guid: a68a4b3ba47434e7290bdc6d52e3e826
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

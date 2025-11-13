@@ -10,6 +10,7 @@ public class GameUI : MonoBehaviour {
   private VisualElement[] lives_;
   private int currentScore_ = 0;
   private int currentLives_ = 2;
+  private VisualElement root_;
 
   void Awake() {
     // Singleton pattern for the GameUI
@@ -21,14 +22,14 @@ public class GameUI : MonoBehaviour {
   }
 
   public void OnEnable() {
-    VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-    score_ = root.Q<Label>("Score");
-    gameOver_ = root.Q<Label>("GameOver");
-    health_ = root.Q<VisualElement>("HitPoints");
+    root_ = GetComponent<UIDocument>().rootVisualElement;
+    score_ = root_.Q<Label>("Score");
+    gameOver_ = root_.Q<Label>("GameOver");
+    health_ = root_.Q<VisualElement>("HitPoints");
     lives_ = new VisualElement[3];
-    lives_[0] = root.Q<VisualElement>("Life1");
-    lives_[1] = root.Q<VisualElement>("Life2");
-    lives_[2] = root.Q<VisualElement>("Life3");
+    lives_[0] = root_.Q<VisualElement>("Life1");
+    lives_[1] = root_.Q<VisualElement>("Life2");
+    lives_[2] = root_.Q<VisualElement>("Life3");
     
     // Initialize score display
     SetScore(currentScore_);
@@ -92,6 +93,25 @@ public class GameUI : MonoBehaviour {
   // Show the game over screen
   public void ShowGameOver() {
     gameOver_.style.visibility = Visibility.Visible;
+    
+    // Save high score when game ends
+    if (currentScore_ > GameStateManager.GetHighestScore()) {
+      GameStateManager.SaveHighestScore(currentScore_);
+    }
+  }
+
+  // Hide the entire GameUI (used when pausing)
+  public void Hide() {
+    if (root_ != null) {
+      root_.style.display = DisplayStyle.None;
+    }
+  }
+
+  // Show the entire GameUI (used when resuming)
+  public void Show() {
+    if (root_ != null) {
+      root_.style.display = DisplayStyle.Flex;
+    }
   }
 
 }

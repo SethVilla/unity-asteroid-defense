@@ -10,7 +10,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip musicClip;
     [SerializeField] public AudioClip ability1;
     [SerializeField] public AudioClip ability2;
+    [SerializeField] public AudioClip impact;
     [SerializeField] public AudioClip[] explosions;
+    
 
 
 

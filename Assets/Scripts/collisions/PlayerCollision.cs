@@ -3,17 +3,18 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     private AudioManager audioManager;
-    private float currentHP_ = 50f;
-    private float maxHP_ = 50f;
+    private float currentHP = 50f;
+    private float maxHP = 50f;
 
     void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject != null)
+            audioManager = audioObject.GetComponent<AudioManager>();
     }
 
     void Start()
     {
-        // Initialize HP bar display
         UpdateHPDisplay();
     }
 
@@ -21,96 +22,87 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Asteroid"))
         {
-            // Try regular asteroid first
-            AsteroidCollision asteroidScript = collision.gameObject.GetComponent<AsteroidCollision>();
-            if (asteroidScript != null)
-            {
-                float damage = asteroidScript.damage;
-                asteroidScript.TakeDamage(10f);
-                TakeDamage(damage);
-                return;
-            }
-            
-            // Try Level 2 asteroid
-            AsteroidCollisionLevel2 asteroidLevel2Script = collision.gameObject.GetComponent<AsteroidCollisionLevel2>();
-            if (asteroidLevel2Script != null)
-            {
-                float damage = asteroidLevel2Script.damage;
-                asteroidLevel2Script.TakeDamage(10f);
-                TakeDamage(damage);
-                return;
-            }
+            HandleAsteroidCollision(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Space Pod"))
         {
-            // Get damage from space pod
             SpacePodCollision spacePodScript = collision.gameObject.GetComponent<SpacePodCollision>();
             if (spacePodScript != null)
             {
-                float damage = spacePodScript.damage;
                 spacePodScript.TakeDamage(10f);
-                TakeDamage(damage);
+                TakeDamage(spacePodScript.damage);
             }
-        } else if (collision.gameObject.CompareTag("Satellite"))
+        }
+        else if (collision.gameObject.CompareTag("Satellite"))
         {
             SatelliteCollision satelliteScript = collision.gameObject.GetComponent<SatelliteCollision>();
             if (satelliteScript != null)
             {
-                float damage = satelliteScript.damage;
                 satelliteScript.TakeDamage(10f);
-                TakeDamage(damage);
+                TakeDamage(satelliteScript.damage);
             }
         }
+    }
 
+    private void HandleAsteroidCollision(GameObject asteroid)
+    {
+        AsteroidCollision asteroidScript = asteroid.GetComponent<AsteroidCollision>();
+        if (asteroidScript != null)
+        {
+            asteroidScript.TakeDamage(10f);
+            TakeDamage(asteroidScript.damage);
+            return;
+        }
+        
+        AsteroidCollisionLevel2 asteroidLevel2Script = asteroid.GetComponent<AsteroidCollisionLevel2>();
+        if (asteroidLevel2Script != null)
+        {
+            asteroidLevel2Script.TakeDamage(10f);
+            TakeDamage(asteroidLevel2Script.damage);
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        currentHP_ -= damage;
-        if (currentHP_ <= 0 && GameUI.Instance.getLives() > 0) {
+        currentHP -= damage;
         
-            GameUI.Instance.LoseLife();
-            currentHP_ = maxHP_;
+        if (audioManager != null && audioManager.impact != null)
+            audioManager.PlaySFX(audioManager.impact);
+        
+        if (currentHP <= 0 && GameUI.Instance.getLives() > 0)
+        {
+            if (audioManager != null && audioManager.explosions != null && audioManager.explosions.Length > 0)
+                audioManager.PlaySFX(audioManager.explosions[Random.Range(0, audioManager.explosions.Length)]);
             
-            // Reset the scene after losing a life
+            GameUI.Instance.LoseLife();
+            currentHP = maxHP;
+            
             SceneController sceneController = FindObjectOfType<SceneController>();
             if (sceneController != null)
-            {
                 sceneController.ResetScene();
-            }
-        }   else if (currentHP_ <= 0) {
-            currentHP_ = 0;
+        }
+        else if (currentHP <= 0)
+        {
+            currentHP = 0;
             GameOver();
         }
-        
 
-        // Update HP bar display
         UpdateHPDisplay();
     }
 
     private void UpdateHPDisplay()
     {
         if (GameUI.Instance != null)
-        {
-            GameUI.Instance.UpdateHP(currentHP_, maxHP_);
-        }
+            GameUI.Instance.UpdateHP(currentHP, maxHP);
     }
 
     private void GameOver()
     {
         GameUI.Instance.ShowGameOver();
-        Debug.Log("Game Over! HP reached 0.");
-        Time.timeScale = 0.0f; // Pause the game
+        Time.timeScale = 0.0f;
     }
 
-    public float GetCurrentHP()
-    {
-        return currentHP_;
-    }
+    public float GetCurrentHP() => currentHP;
 
-    public float GetMaxHP()
-    {
-        return maxHP_;
-    }
+    public float GetMaxHP() => maxHP;
 }
-

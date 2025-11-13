@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="OptionsMenu" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Textures/PauseMenu.jpeg?fileID=2800000&amp;guid=8b9a7903e8edb4cfeb21534df07fe35b&amp;type=3#PauseMenu&quot;); -unity-background-scale-mode: scale-and-crop; background-position-y: center; background-size: cover; -unity-background-image-tint-color: rgb(125, 132, 180);">
+        <ui:Label text="Sound" style="color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 16px;" />
+        <ui:Slider name="MasterSlider" label="Master" value="100" high-value="100" style="color: rgb(255, 255, 255);" />
+        <ui:Slider name="SFXSlider" label="Sound FX" value="100" high-value="100" style="color: rgb(255, 255, 255);" />
+        <ui:Slider name="MusicSlider" label="Background Music" value="100" high-value="100" style="color: rgb(255, 255, 255);" />
+    </ui:VisualElement>
+</ui:UXML>
