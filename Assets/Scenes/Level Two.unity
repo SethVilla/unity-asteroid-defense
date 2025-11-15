@@ -1021,6 +1021,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 96818ce2ef7104648aac206ca607fbae, type: 3}
   - {fileID: 8300000, guid: d02b4197665784bf5ac854bbd801e51d, type: 3}
   - {fileID: 8300000, guid: c7a38088c9df849e79eb7c1d5486e0f6, type: 3}
+  beam: {fileID: 8300000, guid: 45cf409ece39f4e8e8c7f0af44591c7d, type: 3}
+  ememyImpact: {fileID: 8300000, guid: 1b74b265f64584ac2b37b5848e6d627c, type: 3}
 --- !u!1 &1266297903
 GameObject:
   m_ObjectHideFlags: 0

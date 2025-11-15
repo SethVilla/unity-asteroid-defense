@@ -55,5 +55,35 @@ public class BulletCollision : MonoBehaviour
                 Destroy(gameObject); // Destroy the bullet after hitting
             }
         }
+        else if (collision.gameObject.CompareTag("Alien Missile"))
+        {
+            AlienMissileCollision alienMissileScript = collision.gameObject.GetComponent<AlienMissileCollision>();
+            if (alienMissileScript != null)
+            {
+                Debug.Log("Bullet hit alien missile for " + damage + " damage.");
+                alienMissileScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the bullet after hitting
+            }
+        }
+        else if (collision.gameObject.CompareTag("Alien Fighter"))
+        {
+            AlienFighterCollision alienFighterScript = collision.gameObject.GetComponent<AlienFighterCollision>();
+            if (alienFighterScript != null)
+            {
+                Debug.Log("Bullet hit alien fighter for " + damage + " damage.");
+                alienFighterScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the bullet after hitting
+            }
+        }
+        else if (collision.gameObject.CompareTag("Alien Destroyer"))
+        {
+            AlienDestroyerCollision alienDestroyerScript = collision.gameObject.GetComponent<AlienDestroyerCollision>();
+            if (alienDestroyerScript != null)
+            {
+                Debug.Log("Bullet hit alien destroyer for " + damage + " damage.");
+                alienDestroyerScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the bullet after hitting
+            }
+        }
     }
 }

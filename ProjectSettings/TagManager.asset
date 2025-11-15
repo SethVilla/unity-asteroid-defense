@@ -11,6 +11,10 @@ TagManager:
   - Space Pod
   - Audio
   - Satellite
+  - Beam
+  - Alien Missile
+  - Alien Destroyer
+  - Alien Fighter
   layers:
   - Default
   - TransparentFX

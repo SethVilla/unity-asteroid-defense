@@ -98,6 +98,15 @@ public class GameUI : MonoBehaviour {
     if (currentScore_ > GameStateManager.GetHighestScore()) {
       GameStateManager.SaveHighestScore(currentScore_);
     }
+    
+    // Wait 3 seconds then return to level 1
+    Invoke(nameof(ReturnToLevel1AfterDelay), 3f);
+  }
+  
+  private void ReturnToLevel1AfterDelay() {
+    if (LevelManager.Instance != null) {
+      LevelManager.Instance.ReturnToLevel1AfterGameOver();
+    }
   }
 
   // Hide the entire GameUI (used when pausing)

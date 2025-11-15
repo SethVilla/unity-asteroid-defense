@@ -31,6 +31,11 @@ public class AsteroidCollision : MonoBehaviour
         {
             audioManager.PlaySFX(audioManager.explosions[Random.Range(0, audioManager.explosions.Length)]);
             DestroyAsteroid();
+        } else {
+            if (audioManager != null && audioManager.ememyImpact != null)
+            {
+                audioManager.PlaySFX(audioManager.ememyImpact);
+            }
         }
     }
     

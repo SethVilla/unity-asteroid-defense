@@ -51,6 +51,39 @@ public class MissileCollision : MonoBehaviour
                 Destroy(gameObject); // Destroy the missile after hitting
             }
         }
+        // Check if we hit an alien missile
+        else if (collision.gameObject.CompareTag("Alien Missile"))
+        {
+            AlienMissileCollision alienMissileScript = collision.gameObject.GetComponent<AlienMissileCollision>();
+            if (alienMissileScript != null)
+            {
+                Debug.Log("Missile hit alien missile for " + damage + " damage.");
+                alienMissileScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the missile after hitting
+            }
+        }
+        // Check if we hit an alien fighter
+        else if (collision.gameObject.CompareTag("Alien Fighter"))
+        {
+            AlienFighterCollision alienFighterScript = collision.gameObject.GetComponent<AlienFighterCollision>();
+            if (alienFighterScript != null)
+            {
+                Debug.Log("Missile hit alien fighter for " + damage + " damage.");
+                alienFighterScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the missile after hitting
+            }
+        }
+        // Check if we hit an alien destroyer
+        else if (collision.gameObject.CompareTag("Alien Destroyer"))
+        {
+            AlienDestroyerCollision alienDestroyerScript = collision.gameObject.GetComponent<AlienDestroyerCollision>();
+            if (alienDestroyerScript != null)
+            {
+                Debug.Log("Missile hit alien destroyer for " + damage + " damage.");
+                alienDestroyerScript.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the missile after hitting
+            }
+        }
     }
 }
 

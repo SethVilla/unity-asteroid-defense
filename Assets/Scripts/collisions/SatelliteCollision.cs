@@ -32,6 +32,11 @@ public class SatelliteCollision : MonoBehaviour
             audioManager.PlaySFX(audioManager.explosions[Random.Range(0, audioManager.explosions.Length)]);
             GameUI.Instance.IncreaseScore(15 * (int)damage);
             Destroy(gameObject);
+        } else {
+            if (audioManager != null && audioManager.ememyImpact != null)
+            {
+                audioManager.PlaySFX(audioManager.ememyImpact);
+            }
         }
     }
 }

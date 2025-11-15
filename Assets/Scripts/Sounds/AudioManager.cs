@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip ability2;
     [SerializeField] public AudioClip impact;
     [SerializeField] public AudioClip[] explosions;
+    [SerializeField] public AudioClip beam;
+    [SerializeField] public AudioClip ememyImpact;
     
 
 

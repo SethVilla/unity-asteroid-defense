@@ -42,7 +42,44 @@ public class PlayerCollision : MonoBehaviour
                 TakeDamage(satelliteScript.damage);
             }
         }
+        else if (collision.gameObject.CompareTag("Beam"))
+        {
+            BeamCollision beamScript = collision.gameObject.GetComponent<BeamCollision>();
+            if (beamScript != null)
+            {
+                TakeDamage(beamScript.GetDamage());
+                // Destroy(collision.gameObject);
+            }
+        }
+        else if (collision.gameObject.CompareTag("Alien Missile"))
+        {
+            AlienMissileCollision alienMissileScript = collision.gameObject.GetComponent<AlienMissileCollision>();
+            if (alienMissileScript != null)
+            {
+                alienMissileScript.TakeDamage(10f);
+                TakeDamage(alienMissileScript.GetDamage());
+            }
+        }
+        else if (collision.gameObject.CompareTag("Alien Fighter"))
+        {
+            AlienFighterCollision alienFighterScript = collision.gameObject.GetComponent<AlienFighterCollision>();
+            if (alienFighterScript != null)
+            {
+                alienFighterScript.TakeDamage(10f);
+                TakeDamage(alienFighterScript.GetDamage());
+            }
+        }
+        else if (collision.gameObject.CompareTag("Alien Destroyer"))
+        {
+            AlienDestroyerCollision alienDestroyerScript = collision.gameObject.GetComponent<AlienDestroyerCollision>();
+            if (alienDestroyerScript != null)
+            {
+                alienDestroyerScript.TakeDamage(10f);
+                TakeDamage(20f);
+            }
+        }
     }
+
 
     private void HandleAsteroidCollision(GameObject asteroid)
     {
@@ -76,6 +113,10 @@ public class PlayerCollision : MonoBehaviour
             
             GameUI.Instance.LoseLife();
             currentHP = maxHP;
+            
+            // Reset destroyer count if in boss battle
+            if (LevelManager.Instance != null)
+                LevelManager.Instance.OnLifeLost();
             
             SceneController sceneController = FindObjectOfType<SceneController>();
             if (sceneController != null)

@@ -79,7 +79,7 @@ public class SceneController : MonoBehaviour
          currentTileIndex++;
         
         // Only spawn asteroids, space pods, and satellites after the first tile
-        if (currentTileIndex > 1)
+        if (currentTileIndex > 2)
         {
             // Spawn regular asteroids
             GameTileAsteroids asteroidScript = tile.GetComponent<GameTileAsteroids>();
@@ -98,6 +98,10 @@ public class SceneController : MonoBehaviour
             GameTileSatellites satelliteScript = tile.GetComponent<GameTileSatellites>();
             if (satelliteScript != null)
                 satelliteScript.SpawnSatellites();
+                
+            GameTileAlienFighters alienFighterScript = tile.GetComponent<GameTileAlienFighters>();
+            if (alienFighterScript != null)
+                alienFighterScript.SpawnAlienFighters();
         }
         
         return tile;

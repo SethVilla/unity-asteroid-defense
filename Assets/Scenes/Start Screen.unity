@@ -144,7 +144,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577269517}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 29716311f99df4115ba70d69346ea6d9, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: c5de0a2c04a5147109702a14b52a6656, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 853178195}
@@ -154,13 +154,13 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 1
   m_AspectRatio: 1
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
   m_DirectAudioVolumes: []
-  m_Url: 
+  m_Url: https://res.cloudinary.com/dz0y3nvp7/video/upload/v1763191532/AsteroidDefenseStartVid_qhzne6.mp4
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0

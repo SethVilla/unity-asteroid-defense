@@ -8,6 +8,8 @@ public class StartScreenGameUI : MonoBehaviour
     
     private Button startButton_;
     private Label highScoreLabel;
+    private VisualElement titleElement;
+    private VisualElement scoreContainer;
     private const string GAME_SCENE_NAME = "Level One";
 
     void Awake()
@@ -29,18 +31,71 @@ public class StartScreenGameUI : MonoBehaviour
         
         startButton_ = root.Q<Button>("StartButton");
         highScoreLabel = root.Q<Label>("Score");
+        titleElement = root.Q<VisualElement>("Title");
+        scoreContainer = root.Q<VisualElement>("ScoreContainer");
+        
+        Debug.Log($"StartButton found: {startButton_ != null}, ScoreContainer found: {scoreContainer != null}, Title found: {titleElement != null}");
         
         if (startButton_ != null)
         {
             startButton_.clicked += OnStartButtonClicked;
         }
+        else
+        {
+            Debug.LogWarning("StartButton not found! Make sure there's a Button with name 'StartButton' in the UXML");
+        }
+        
+        // Initially show title, hide score container and start button
+        if (titleElement != null)
+        {
+            titleElement.style.display = DisplayStyle.Flex;
+            titleElement.style.visibility = Visibility.Visible;
+        }
+        
+        if (scoreContainer != null)
+        {
+            scoreContainer.style.display = DisplayStyle.None;
+            scoreContainer.style.visibility = Visibility.Hidden;
+        }
+        
+        if (startButton_ != null)
+        {
+            startButton_.style.display = DisplayStyle.None;
+            startButton_.style.visibility = Visibility.Hidden;
+        }
         
         UpdateHighScore();
+        
+        // After 5 seconds, show score container and start button, hide title
+        Invoke(nameof(ShowStartUI), 5f);
+    }
+    
+    private void ShowStartUI()
+    {
+        if (titleElement != null)
+        {
+            titleElement.style.display = DisplayStyle.None;
+            titleElement.style.visibility = Visibility.Hidden;
+        }
+        
+        if (scoreContainer != null)
+        {
+            scoreContainer.style.display = DisplayStyle.Flex;
+            scoreContainer.style.visibility = Visibility.Visible;
+        }
+        
+        if (startButton_ != null)
+        {
+            startButton_.style.display = DisplayStyle.Flex;
+            startButton_.style.visibility = Visibility.Visible;
+            Debug.Log("Start button is now visible!");
+        }
     }
 
     void OnDisable()
     {
-        // Unregister event to prevent memory leaks
+        CancelInvoke(nameof(ShowStartUI));
+        
         if (startButton_ != null)
         {
             startButton_.clicked -= OnStartButtonClicked;
